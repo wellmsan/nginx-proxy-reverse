@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    ports:
+        - "9090:80"
+    volumes:
+      - ./nginx/config:/etc/nginx/conf.d/
+      - ./nginx/logs:/var/log/nginx/
+    networks: 
+        - minha-rede
+    depends_on:
+        - "api1"
+        - "api2"
+
+  api1:
+    build:
+        dockerfile: ./Dockerfile
+        context: ./api1
+    container_name: api1
+    restart: always
+    ports:
+        - "3001:3000"
+    networks: 
+        - minha-rede
+
+  api2:
+    build:
+        dockerfile: ./Dockerfile
+        context: ./api2
+    container_name: api2
+    restart: always
+    ports:
+        - "3002:3000"
+    networks: 
+        - minha-rede
+
+networks:
+  minha-rede:
