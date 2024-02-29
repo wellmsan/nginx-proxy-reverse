@@ -1,20 +1,6 @@
 version: "3.8"
 
 services:
-  nginx:
-    image: nginx
-    container_name: nginx
-    restart: always
-    ports:
-        - "9090:80"
-    volumes:
-      - ./nginx/config:/etc/nginx/conf.d/
-      - ./nginx/logs:/var/log/nginx/
-    networks: 
-        - minha-rede
-    depends_on:
-        - "api1"
-        - "api2"
 
   api1:
     build:
@@ -37,6 +23,21 @@ services:
         - "3002:3000"
     networks: 
         - minha-rede
+
+  nginx:
+    image: nginx
+    container_name: nginx
+    restart: always
+    ports:
+        - "9090:80"
+    volumes:
+      - ./nginx/config:/etc/nginx/conf.d/
+      - ./nginx/logs:/var/log/nginx/
+    networks: 
+        - minha-rede
+    depends_on:
+        - "api1"
+        - "api2"
 
 networks:
   minha-rede:
